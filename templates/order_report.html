@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8">
+<title>{{ title }}</title>
+<style>
+@page { size: A4; margin: 20mm; @bottom-right { content: counter(page); } }
+body { font-family: sans-serif; font-size: 10pt; color: #172334; line-height: 1.5; }
+h1 { font-size: 22pt; } h2 { color: #245a85; margin-top: 22pt; }
+.item { margin-bottom: 14pt; break-inside: avoid; } .evidence { color: #536273; font-size: 9pt; }
+h2, h3 { break-after: avoid; } p { orphans: 3; widows: 3; }
+</style>
+<h1>{{ title }}</h1>
+<p>{{ goal }}</p>
+<p>Источник: {{ source_file }}. Создан: {{ generated_at }}</p>
+{% if source_url %}<p>Объявление: {{ source_url }}</p>{% endif %}
+{% if review_notes %}
+<h2>Проверка результата</h2>
+<p>После генерации выполнена отдельная проверка Codex по исходному объявлению.
+Это не согласование с заказчиком.</p>
+{% for note in review_notes %}<p>{{ note }}</p>{% endfor %}
+{% endif %}
+<h2>Сведения заказчика</h2>
+<p><b>Бюджет:</b> {{ budget.value or 'Не указано' }}. {{ budget.note }}</p>
+<p><b>Сроки:</b> {{ deadline.value or 'Не указано' }}. {{ deadline.note }}</p>
+{% set labels = {'required':'Обязательно', 'preferred':'Предпочтение', 'optional':'Опционально'} %}
+{% for r in requirements %}
+<div class="item"><b>{{ r.id }} · {{ labels[r.status] }}</b>
+<p>{{ r.description }}</p><p class="evidence">Основание: «{{ r.evidence }}»</p></div>
+{% endfor %}
+<h2>Критерии приёмки из объявления</h2>
+{% for c in acceptance_criteria %}<p>{{ c }}</p>{% else %}<p>Не указаны.</p>{% endfor %}
+<h2>Выводы анализатора: неясности и вопросы</h2>
+{% for c in clarifications %}
+<div class="item"><b>{{ c.requirement_id }}</b><p>{{ c.gap }}</p><p>{{ c.question }}</p></div>
+{% else %}<p>Анализатор не выделил вопросов. Это не гарантирует полноту ТЗ.</p>{% endfor %}
+</html>

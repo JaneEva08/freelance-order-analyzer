@@ -42,7 +42,7 @@ def main(argv: list) -> int:
     try:
         logger.info("Обработка диалога с помощью ИИ")
         data = process_dialog_with_ai(text)
-        logger.info("Структурированные данные: %s", data)
+        logger.info("Структурированные данные получены: %d полей", len(data))
         if "--design" in argv:
             from utils.image_generator import generate_design_image
             image, _ = generate_design_image(text)
@@ -64,3 +64,4 @@ def main(argv: list) -> int:
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
+

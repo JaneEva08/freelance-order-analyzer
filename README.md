@@ -5,6 +5,17 @@
 
 Репозиторий: https://github.com/JaneEva08/freelance-order-analyzer
 
+## Результаты и сдача ДЗ
+
+- [Полный отчёт по VPf10](HOMEWORK.md)
+- [Готовый текст ответа для сдачи](SUBMISSION.md)
+- Примеры PDF: [CRM](docs/crm-report.pdf), [AI-бот](docs/ai-bot-report.pdf),
+  [диалог](docs/dialog-example.pdf).
+
+Примеры заказов прошли отдельную сверку Codex; исправления отмечены внутри PDF.
+
+![Оформление отчёта карточками](docs/order-cards-preview.png)
+
 ## Установка
 
 Требуется Python 3.10+. В Windows для WeasyPrint нужны системные библиотеки

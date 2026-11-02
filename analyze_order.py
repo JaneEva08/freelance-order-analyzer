@@ -103,7 +103,8 @@ def main():
             raise ValueError("Не задан OPENAI_API_KEY")
         from openai import OpenAI
         logging.info("Извлечение требований из объявления")
-        client = OpenAI(timeout=120, max_retries=1)
+        client = OpenAI(base_url=os.getenv("OPENAI_BASE_URL") or None,
+                        timeout=120, max_retries=1)
         messages = [{"role": "system", "content": PROMPT},
                     {"role": "user", "content": text}]
         for attempt in range(3):

@@ -87,7 +87,7 @@ def process_dialog_with_ai(text: str) -> dict:
     model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
     logger.info("Запрос к модели %s (длина диалога: %d символов)", model, len(text))
     try:
-        response = OpenAI(api_key=api_key).chat.completions.create(
+        response = OpenAI(api_key=api_key, base_url=os.getenv("OPENAI_BASE_URL") or None).chat.completions.create(
             model=model,
             temperature=0,
             response_format={"type": "json_object"},

@@ -136,12 +136,8 @@ def main():
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
         logging.info("JSON проверен и сохранён: %s", path)
         if not args.json_only:
-            from jinja2 import Environment, FileSystemLoader, select_autoescape
-            from weasyprint import HTML
-            env = Environment(loader=FileSystemLoader(ROOT / "templates"),
-                              autoescape=select_autoescape(["html"]))
-            html = env.get_template("order_report.html").render(**data)
-            HTML(string=html).write_pdf(out / (stem + ".pdf"))
+            from report_layout import render_report
+            render_report(data, out / (stem + ".pdf"))
             logging.info("PDF сохранён")
         return 0
     except Exception as exc:

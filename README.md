@@ -22,6 +22,14 @@ Copy-Item .env.example .env
 
 ## Разбор объявления
 
+PDF оформлен карточками: сводка, смысловые группы требований, цветные
+статусы, приёмка и вопросы. Дословные основания вынесены в приложение.
+Для пересборки сохранённого JSON без нового API-запроса:
+
+```powershell
+python report_layout.py reports/order.json --output reports/order-cards.pdf
+```
+
 Сохраните исходный текст в UTF-8:
 
 ```powershell

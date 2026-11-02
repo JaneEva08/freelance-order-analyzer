@@ -1,35 +1,80 @@
 <!doctype html>
-<html lang="ru"><meta charset="utf-8">
-<title>{{ title }}</title>
+<html lang="ru"><meta charset="utf-8"><title>{{ title }}</title>
 <style>
-@page { size: A4; margin: 20mm; @bottom-right { content: counter(page); } }
-body { font-family: sans-serif; font-size: 10pt; color: #172334; line-height: 1.5; }
-h1 { font-size: 22pt; } h2 { color: #245a85; margin-top: 22pt; }
-.item { margin-bottom: 14pt; break-inside: avoid; } .evidence { color: #536273; font-size: 9pt; }
-h2, h3 { break-after: avoid; } p { orphans: 3; widows: 3; }
+@page { size:A4; margin:15mm 15mm 17mm; background:#fcfbff;
+ @bottom-left { content:"FREELANCE / BRIEF"; font-family:Arial; font-size:7pt; color:#8b7b9d; }
+ @bottom-right { content:counter(page) " / " counter(pages); font-family:Arial; font-size:8pt; color:#8652cf; } }
+* { box-sizing:border-box; }
+body { font-family:"Segoe UI",Arial,sans-serif; color:#2b223e; font-size:9pt; line-height:1.45; margin:0; }
+p { margin:5pt 0; } h1,h2,h3 { margin:0; break-after:avoid; }
+.eyebrow { font-size:8pt; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#8054da; }
+.hero { background:linear-gradient(125deg,#251744,#50317d); border-radius:18px; padding:24pt; color:white; margin:12pt 0 16pt; }
+h1 { font-size:27pt; line-height:1.13; margin:12pt 0; letter-spacing:-.7pt; }
+.hero p { color:#e1d7f2; font-size:10pt; line-height:1.6; }
+.pill { display:inline-block; padding:3pt 7pt; background:#eae0ff; color:#6740ab; border-radius:20px; font-size:7pt; font-weight:700; }
+.hero .pill { background:#beffcf; color:#24563c; }
+.stats { display:table; width:100%; border-spacing:7pt 0; margin:0 -7pt 15pt; }
+.stat { display:table-cell; width:33%; background:#efe8fd; padding:12pt 14pt; border-radius:12px; }
+.stat strong { display:block; color:#7142d5; font-size:25pt; line-height:1.1; }
+.stat span { font-size:8pt; color:#6b607c; }
+.facts { display:table; width:100%; border-spacing:7pt 0; margin:0 -7pt 15pt; }
+.fact { display:table-cell; width:50%; background:white; border:1px solid #e7dff4; border-radius:12px; padding:12pt; }
+.fact b { display:block; color:#9275b7; font-size:8pt; text-transform:uppercase; letter-spacing:1px; margin-bottom:6pt; }
+.fact p { font-size:10pt; font-weight:600; }
+.muted { color:#81768e; font-size:8pt; }
+.section { margin-top:20pt; }
+h2 { font-size:17pt; line-height:1.2; margin:0 0 5pt; letter-spacing:-.3pt; }
+.section-head { margin:0 0 11pt; break-after:avoid; }
+.section-head p { color:#81768e; font-size:8pt; }
+.start { break-before:page; }
+.group { margin-top:16pt; }
+.group-title { background:#e9dffd; border-left:4px solid #9463ed; color:#51317e; padding:8pt 10pt; border-radius:6px; font-size:11pt; margin-bottom:9pt; }
+.row { display:table; width:100%; table-layout:fixed; border-spacing:8pt 0; margin:0 -8pt 8pt; break-inside:avoid; }
+.card { display:table-cell; width:50%; background:white; border:1px solid #e7dff1; border-radius:10px; padding:9pt; vertical-align:top; }
+.card.empty { border:0; background:none; }
+.id { font-size:7pt; color:#93859e; letter-spacing:.5pt; }
+.badge { display:inline-block; font-size:6.7pt; padding:2pt 5pt; border-radius:12px; margin:0 0 7pt; background:#eee5fd; color:#7148ac; }
+.optional { background:#e3f6ed; color:#39755c; } .preferred { background:#fff0d6; color:#996317; }
+.desc { font-size:9pt; margin-top:3pt; }
+.question { background:#f3edff; border-left:3px solid #9b72e8; padding:8pt 11pt; border-radius:8px; margin-bottom:7pt; break-inside:avoid; }
+.question b { font-size:9pt; display:block; color:#55378d; margin-top:3pt; }
+.gap { color:#7d6e92; font-size:7.7pt; margin:3pt 0; line-height:1.3; }
+.check { background:#e8f6ef; padding:10pt 12pt; margin-bottom:7pt; border-radius:8px; break-inside:avoid; color:#345d48; }
+.note { background:#f1ebfa; border:1px solid #e5daf5; padding:12pt; border-radius:10px; font-size:8pt; color:#6e5b83; margin-top:12pt; break-inside:avoid; }
+.source { font-size:7.2pt; overflow-wrap:anywhere; color:#887b96; margin-top:12pt; }
+.evidence { font-size:7.5pt; color:#756b81; padding:6pt 0; border-bottom:1px solid #e9e2f1; break-inside:avoid; }
+.evidence b { color:#7956ac; font-size:7pt; }
+.quote-columns { columns:2; column-gap:18pt; }
 </style>
-<h1>{{ title }}</h1>
-<p>{{ goal }}</p>
-<p>Источник: {{ source_file }}. Создан: {{ generated_at }}</p>
-{% if source_url %}<p>Объявление: {{ source_url }}</p>{% endif %}
-{% if review_notes %}
-<h2>Проверка результата</h2>
-<p>После генерации выполнена отдельная проверка Codex по исходному объявлению.
-Это не согласование с заказчиком.</p>
-{% for note in review_notes %}<p>{{ note }}</p>{% endfor %}
-{% endif %}
-<h2>Сведения заказчика</h2>
-<p><b>Бюджет:</b> {{ budget.value or 'Не указано' }}. {{ budget.note }}</p>
-<p><b>Сроки:</b> {{ deadline.value or 'Не указано' }}. {{ deadline.note }}</p>
-{% set labels = {'required':'Обязательно', 'preferred':'Предпочтение', 'optional':'Опционально'} %}
-{% for r in requirements %}
-<div class="item"><b>{{ r.id }} · {{ labels[r.status] }}</b>
-<p>{{ r.description }}</p><p class="evidence">Основание: «{{ r.evidence }}»</p></div>
-{% endfor %}
-<h2>Критерии приёмки из объявления</h2>
-{% for c in acceptance_criteria %}<p>{{ c }}</p>{% else %}<p>Не указаны.</p>{% endfor %}
-<h2>Выводы анализатора: неясности и вопросы</h2>
-{% for c in clarifications %}
-<div class="item"><b>{{ c.requirement_id }}</b><p>{{ c.gap }}</p><p>{{ c.question }}</p></div>
-{% else %}<p>Анализатор не выделил вопросов. Это не гарантирует полноту ТЗ.</p>{% endfor %}
+{% set labels={'required':'Обязательно','preferred':'Предпочтение','optional':'Опционально'} %}
+<div class="eyebrow">Freelance Order Analyzer / 01</div>
+<div class="hero"><span class="pill">РАЗБОР ЗАКАЗА</span><h1>{{ title }}</h1><p>{{ goal }}</p></div>
+<div class="stats">
+ <div class="stat"><strong>{{ requirements|length }}</strong><span>требований в разборе</span></div>
+ <div class="stat"><strong>{{ groups|length }}</strong><span>смысловых блоков</span></div>
+ <div class="stat"><strong>{{ clarifications|length }}</strong><span>вопросов заказчику</span></div>
+</div>
+<div class="facts">
+ <div class="fact"><b>Бюджет</b><p>{{ budget.value or 'Нужно согласовать' }}</p><span class="muted">{{ budget.note }}</span></div>
+ <div class="fact"><b>Сроки</b><p>{{ deadline.value or 'Не указаны' }}</p><span class="muted">{{ deadline.note }}</span></div>
+</div>
+<h2>Что обсудить в первую очередь</h2>
+<p class="muted">Вопросы анализатора — подготовка к разговору, а не новые требования.</p>
+{% for c in clarifications[:3] %}<div class="question"><span class="id">{{ c.requirement_id }}</span><b>{{ c.question }}</b></div>{% endfor %}
+<div class="source">Источник: {{ source_url or source_file }}<br>Сформирован: {{ generated_at[:10] }} · Полные основания — в приложении.</div>
+<div class="section start"><div class="section-head"><div class="eyebrow">02 / Сведения заказчика</div><h2>Требования по блокам</h2>
+<p>{{ counts.required }} обязательных · {{ counts.preferred }} предпочтений · {{ counts.optional }} опциональных. Группировка служит навигацией.</p></div>
+{% for g in groups %}<div class="group"><h3 class="group-title">{{ '%02d'|format(loop.index) }} / {{ g.title }} <span class="pill">{{ g['items']|length }}</span></h3>
+{% for pair in g['items']|batch(2) %}<div class="row">{% for r in pair %}<div class="card">
+<span class="badge {{ r.status }}">{{ labels[r.status] }}</span><div class="id">{{ r.id }}</div><p class="desc">{{ r.description }}</p>
+</div>{% endfor %}{% if pair|length==1 %}<div class="card empty"></div>{% endif %}</div>{% endfor %}</div>{% endfor %}</div>
+<div class="section start"><div class="section-head"><div class="eyebrow">03 / Условия готовности</div><h2>Приёмка и открытые вопросы</h2></div>
+{% for c in acceptance_criteria %}<div class="check"><b>{{ '%02d'|format(loop.index) }}</b> / {{ c }}</div>
+{% else %}<div class="note">В объявлении не выделены критерии приёмки. Их нужно согласовать с заказчиком.</div>{% endfor %}
+<h3 class="group-title" style="margin-top:18pt">Нужно уточнить</h3>
+{% for c in clarifications %}<div class="question"><span class="id">{{ '%02d'|format(loop.index) }} / {{ c.requirement_id }}</span><p class="gap">{{ c.gap }}</p><b>{{ c.question }}</b></div>{% endfor %}
+{% if review_notes %}<div class="note"><b>Проверка Codex по исходнику</b>{% for n in review_notes %}<p>{{ n }}</p>{% endfor %}<p>Это не согласование с заказчиком. Сведения и их трактовку нужно проверять.</p></div>{% endif %}</div>
+<div class="section start"><div class="section-head"><div class="eyebrow">04 / Приложение</div><h2>Основания из объявления</h2><p>Дословные фрагменты вынесены сюда, чтобы основной разбор было легче просматривать.</p></div>
+<div class="quote-columns">{% for r in requirements %}<div class="evidence"><b>{{ r.id }}</b><p>«{{ r.evidence }}»</p></div>{% endfor %}</div>
+<div class="source">{{ source_url or source_file }}</div></div>
 </html>
